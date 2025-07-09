@@ -128,8 +128,8 @@ async function findGames() {
     profiles.forEach(p => params.append('profiles[]', p));
 
     try {
-        // const response = await fetch('https://api-1pu7.onrender.com/getMutualGames.php?' + params.toString());
-        const response = await fetch('http://pas/api/public/getMutualGames.php?' + params.toString());
+        const response = await fetch('https://api-1pu7.onrender.com/getMutualGames.php?' + params.toString());
+        // const response = await fetch('http://pas/api/public/getMutualGames.php?' + params.toString());
         if (!response.ok) {
             if (response.status === 404) {
                 errorEl.textContent = 'Сервер недоступний або сторінку не знайдено (404).';
