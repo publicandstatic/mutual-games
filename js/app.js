@@ -161,7 +161,16 @@ async function findGames() {
 
         filtersEl.style.display = 'block';
 
-        document.getElementById('filterMultiplayer').addEventListener('change', renderGames);
+        document.getElementById('category_1').addEventListener('change', renderGames);
+        document.getElementById('category_9').addEventListener('change', renderGames);
+        document.getElementById('category_20').addEventListener('change', renderGames);
+        document.getElementById('category_38').addEventListener('change', renderGames);
+        document.getElementById('category_36').addEventListener('change', renderGames);
+        document.getElementById('category_27').addEventListener('change', renderGames);
+        document.getElementById('category_44').addEventListener('change', renderGames);
+        document.getElementById('category_47').addEventListener('change', renderGames);
+        document.getElementById('category_48').addEventListener('change', renderGames);
+        document.getElementById('category_49').addEventListener('change', renderGames);
         document.getElementById('gameSearch').addEventListener('input', renderGames);
 
         renderGames();
@@ -177,13 +186,27 @@ async function findGames() {
 function renderGames() {
     const resultsEl = document.getElementById('results');
     const searchTerm = document.getElementById('gameSearch').value.trim().toLowerCase();
-    const filterMultiplayer = document.getElementById('filterMultiplayer').checked;
+    const activeCategories = [];
+    [1,9,20,27,36,38,44,47,48,49].forEach(id => {
+        if (document.getElementById(`category_${id}`)?.checked) {
+            activeCategories.push(id);
+        }
+    });
 
     const filtered = allGames.filter(game => {
         if (searchTerm && !game.name.toLowerCase().includes(searchTerm)) return false;
-        if (filterMultiplayer && !game.category_ids?.some(id => multiplayerCategoryIds.includes(id))) return false;
+
+        if (activeCategories.length > 0) {
+            if (!activeCategories.every(id => game.category_ids?.includes(id))) return false;
+        }
+
         return true;
     }).sort((a, b) => a.name.localeCompare(b.name));
+
+    const counterEl = document.getElementById('mutualGamesCount');
+    if (counterEl) {
+        counterEl.textContent = pluralizeGames(filtered.length);
+    }
 
     if (!filtered.length) {
         resultsEl.innerHTML = '<div className="alert alert-secondary" role="alert">Не знайдено ігри з вибраними фільтрами.</div>';
@@ -219,6 +242,7 @@ function renderPlayerSummaries(players, mutualCount) {
     const container = document.getElementById('playerSummaries');
     container.innerHTML = '';
     const h4 = document.createElement('h4');
+    h4.id = 'mutualGamesCount';
     h4.className = 'alert-heading';
     h4.textContent = pluralizeGames(mutualCount);
     container.appendChild(h4);
