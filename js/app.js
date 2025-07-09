@@ -10,49 +10,50 @@ var delta;
 var tamanho = 50;
 var ismobile = false;
 var varpi = 2 * Math.PI;
-var interval = 1000/fps;
+var interval = 1000 / fps;
 var objforDraw = new Array();
 
-document.addEventListener("DOMContentLoaded", function() {
-    window.requestAnimFrame = (function() {
+document.addEventListener("DOMContentLoaded", function () {
+    window.requestAnimFrame = (function () {
         return window.requestAnimationFrame || window
                 .webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
             window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
-            function(callback) {
+            function (callback) {
                 return window.setTimeout(callback,
                     1000 / fps)
             }
     })();
-    window.cancelRequestAnimFrame = (function() {
+    window.cancelRequestAnimFrame = (function () {
         return window.cancelAnimationFrame || window.webkitCancelRequestAnimationFrame ||
             window.mozCancelRequestAnimationFrame ||
             window.oCancelRequestAnimationFrame ||
             window.msCancelRequestAnimationFrame ||
             clearTimeout
     })();
-    var ShadowObject = function(color) {
+    var ShadowObject = function (color) {
         this.x = ((Math.random() * canvas.width) + 10);
         this.y = ((Math.random() * canvas.height) + 10);
         this.color = color;
         this.size = tamanho;
         this.dirX = Math.random() < 0.5 ? -1 : 1;
         this.dirY = Math.random() < 0.5 ? -1 : 1;
-        this.checkIsOut = function() {
+        this.checkIsOut = function () {
             if ((this.x > canvas.width + (this.size /
                 2)) || (this.x < 0 - (this.size /
                 2))) {
                 this.dirX = this.dirX * -1
-            };
+            }
+            ;
             if ((this.y > canvas.height + (this.size /
                 2)) || (this.y < 0 - (this.size /
                 2))) {
                 this.dirY = this.dirY * -1
             }
         };
-        this.move = function() {
+        this.move = function () {
 
-            this.x += this.dirX*2;
-            this.y += this.dirY*2
+            this.x += this.dirX * 2;
+            this.y += this.dirY * 2
 
         }
     };
@@ -65,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
             context.arc(objforDraw[i].x, objforDraw[i].y, objforDraw[i].size, 0, varpi, false);
             context.fillStyle = objforDraw[i].color;
             context.shadowColor = objforDraw[i].color;
-            if(ismobile == false){
+            if (ismobile == false) {
                 context.shadowBlur = 50;
                 context.shadowOffsetX = 0;
                 context.shadowOffsetY = 0;
@@ -85,12 +86,13 @@ document.addEventListener("DOMContentLoaded", function() {
             then = now - (delta % interval)
         }
     };
-    document.body.onload = function(e) {
+    document.body.onload = function (e) {
         for (i = 0; i < colors.length * num; i++) {
             var color = ((i >= colors.length) ? colors[(i -
                 colors.length)] : colors[i]);
             objforDraw.push(new ShadowObject(color))
-        };
+        }
+        ;
         animloop()
     };
 });
@@ -99,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function() {
 let allGames = [];
 const multiplayerCategoryIds = [1, 9, 20, 24, 27, 36, 37, 38, 39, 44, 47, 48, 49];
 const modal = new bootstrap.Modal(document.getElementById('fullscreenModal'));
+
 async function findGames() {
     const inputs = document.querySelectorAll('#form input[type="text"]');
     const profiles = Array.from(inputs)
@@ -161,6 +164,7 @@ async function findGames() {
         document.getElementById('gameSearch').addEventListener('input', renderGames);
 
         renderGames();
+        renderPlayerSummaries(data.players_summary, data.count);
         modal.hide();
     } catch (err) {
         errorEl.textContent = 'Сталася помилка під час запиту до API: ' + err.message;
@@ -181,7 +185,7 @@ function renderGames() {
     }).sort((a, b) => a.name.localeCompare(b.name));
 
     if (!filtered.length) {
-        resultsEl.innerHTML = '<div className="alert alert-secondary" role="alert">Ігор не знайдено за вибраними фільтрами.</div>';
+        resultsEl.innerHTML = '<div className="alert alert-secondary" role="alert">Не знайдено ігри з вибраними фільтрами.</div>';
         return;
     }
 
@@ -202,4 +206,26 @@ function renderGames() {
         `;
         resultsEl.appendChild(div);
     }
+}
+
+function renderPlayerSummaries(players, mutualCount) {
+    const container = document.getElementById('playerSummaries');
+    container.innerHTML = ''; // очищення попереднього виводу
+
+    players.forEach(player => {
+        const div = document.createElement('div');
+        div.className = 'd-flex align-items-center mb-2';
+
+        div.innerHTML = `
+      <img src="${player.avatar}" alt="avatar" class="me-2 rounded-circle" width="32" height="32">
+      <a href="${player.profile_url}" target="_blank" class="text-white text-decoration-none">${player.personaname}</a>
+    `;
+
+        container.appendChild(div);
+    });
+
+    const info = document.createElement('div');
+    info.className = 'mt-2 text-muted';
+    info.textContent = `— мають ${mutualCount} спільних ігор`;
+    container.appendChild(info);
 }
