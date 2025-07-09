@@ -128,7 +128,8 @@ async function findGames() {
     profiles.forEach(p => params.append('profiles[]', p));
 
     try {
-        const response = await fetch('https://api-1pu7.onrender.com/getMutualGames.php?' + params.toString());
+        // const response = await fetch('https://api-1pu7.onrender.com/getMutualGames.php?' + params.toString());
+        const response = await fetch('http://pas/api/public/getMutualGames.php?' + params.toString());
         if (!response.ok) {
             if (response.status === 404) {
                 errorEl.textContent = 'Сервер недоступний або сторінку не знайдено (404).';
@@ -208,24 +209,33 @@ function renderGames() {
     }
 }
 
+function pluralizeGames(n) {
+    if (n % 10 === 1 && n % 100 !== 11) return `${n} гра`;
+    if ([2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100)) return `${n} гри`;
+    return `${n} ігор`;
+}
+
 function renderPlayerSummaries(players, mutualCount) {
     const container = document.getElementById('playerSummaries');
-    container.innerHTML = ''; // очищення попереднього виводу
+    container.innerHTML = '';
+    const h4 = document.createElement('h4');
+    h4.className = 'alert-heading';
+    h4.textContent = pluralizeGames(mutualCount);
+    container.appendChild(h4);
+
+    const row = document.createElement('div');
+    row.className = 'd-flex flex-wrap align-items-center gap-3 mb-0';
 
     players.forEach(player => {
         const div = document.createElement('div');
-        div.className = 'd-flex align-items-center mb-2';
+        div.className = 'd-flex align-items-center gap-1';
 
         div.innerHTML = `
-      <img src="${player.avatar}" alt="avatar" class="me-2 rounded-circle" width="32" height="32">
-      <a href="${player.profile_url}" target="_blank" class="text-white text-decoration-none">${player.personaname}</a>
+      <img src="${player.avatar}" alt="avatar" class="rounded-circle" width="20" height="20">
+      <a href="${player.profile_url}" target="_blank" class="alert-link small">${player.personaname}</a>
     `;
-
-        container.appendChild(div);
+        row.appendChild(div);
     });
 
-    const info = document.createElement('div');
-    info.className = 'mt-2 text-muted';
-    info.textContent = `— мають ${mutualCount} спільних ігор`;
-    container.appendChild(info);
+    container.appendChild(row);
 }

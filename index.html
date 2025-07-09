@@ -52,10 +52,11 @@
             <div class="col-md-12"><input type="text" name="steam-url-5" class="form-control" placeholder="Посилання на профіль Steam 5"></div>
         </div>
         <button class="btn btn-primary mt-3" onclick="findGames()">Знайти спільні ігри</button>
-        <div id="error" class="alert alert-danger  mt-3" role="alert"></div>
+        <div id="error" class="alert alert-danger mt-3" role="alert"></div>
     </div>
 
     <div id="filters">
+        <div id="playerSummaries" role="alert" class="alert alert-info"></div>
         <div class="mb-4 align-items-center d-flex flex-wrap gap-3">
             <div>
                 <input list="gameList" id="gameSearch" class="form-control" placeholder="Пошук гри за назвою" style="min-width: 250px; max-width: 300px;">
@@ -67,7 +68,6 @@
                     Мультиплеєр / кооп
                 </label>
             </div>
-            <div id="playerSummaries" class="mb-4"></div>
         </div>
     </div>
 
