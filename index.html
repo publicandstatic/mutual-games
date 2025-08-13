@@ -1,168 +1,202 @@
 <!DOCTYPE html>
 <html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Пошук спільних ігор у Steam серед друзів. Інструмент від PUBLIC and STATIC.">
-    <meta name="keywords" content="Steam, спільні ігри, Steam друзі, PUBLIC and STATIC">
-    <meta name="author" content="PUBLIC and STATIC">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Пошук спільних ігор у Steam | PUBLIC and STATIC">
-    <meta property="og:description" content="Швидко дізнайся, в які ігри можна грати разом зі своїми друзями в Steam.">
-    <meta property="og:image" content="https://publicandstatic.github.io/mutual-games/images/logo.png">
-    <meta property="og:url" content="https://publicandstatic.github.io/mutual-games/">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Пошук спільних ігор у Steam">
-    <meta name="twitter:description" content="Швидкий пошук ігор, у які можна грати разом.">
-    <meta name="twitter:image" content="https://publicandstatic.github.io/mutual-games/images/logo.png">
-    <title>Пошук спільних ігор у Steam | PUBLIC and STATIC</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
-    <link rel="manifest" href="images/favicon/site.webmanifest">
-    <link rel="icon" type="image/x-icon" href="images/favicon/favicon.ico">
-    <link href="//cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="//icons.getbootstrap.com/assets/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="css/app.css" rel="stylesheet">
-</head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=GT-P36C9JQK"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+            name="description"
+            content="Пошук спільних ігор у Steam серед друзів. Інструмент від PUBLIC and STATIC."
+        />
+        <meta name="keywords" content="Steam, спільні ігри, Steam друзі, PUBLIC and STATIC" />
+        <meta name="author" content="PUBLIC and STATIC" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Пошук спільних ігор у Steam | PUBLIC and STATIC" />
+        <meta
+            property="og:description"
+            content="Швидко дізнайся, в які ігри можна грати разом зі своїми друзями в Steam."
+        />
+        <meta property="og:image" content="https://publicandstatic.github.io/mutual-games/images/logo.png" />
+        <meta property="og:url" content="https://publicandstatic.github.io/mutual-games/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Пошук спільних ігор у Steam" />
+        <meta name="twitter:description" content="Швидкий пошук ігор, у які можна грати разом." />
+        <meta name="twitter:image" content="https://publicandstatic.github.io/mutual-games/images/logo.png" />
+        <title>Пошук спільних ігор у Steam | PUBLIC and STATIC</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png" />
+        <link rel="manifest" href="images/favicon/site.webmanifest" />
+        <link rel="icon" type="image/x-icon" href="images/favicon/favicon.ico" />
+        <link href="//cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="//icons.getbootstrap.com/assets/font/bootstrap-icons.min.css" rel="stylesheet" />
+        <link href="css/app.css" rel="stylesheet" />
+    </head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GT-P36C9JQK"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-    function gtag() {
-        dataLayer.push(arguments);
-    }
+        function gtag() {
+            dataLayer.push(arguments);
+        }
 
-    gtag('js', new Date());
+        gtag('js', new Date());
 
-    gtag('config', 'GT-P36C9JQK');
-</script>
-<body>
-<div class="container my-4">
-
-    <h1 class="mb-4">Пошук спільних ігор у Steam</h1>
-    <div id="form" class="mb-4">
-        <div class="row g-2">
-            <div class="col-md-12"><input type="text" name="steam-url-1" class="form-control" placeholder="Посилання на профіль Steam 1"></div>
-            <div class="col-md-12"><input type="text" name="steam-url-2" class="form-control" placeholder="Посилання на профіль Steam 2"></div>
-            <div class="col-md-12"><input type="text" name="steam-url-3" class="form-control" placeholder="Посилання на профіль Steam 3"></div>
-            <div class="col-md-12"><input type="text" name="steam-url-4" class="form-control" placeholder="Посилання на профіль Steam 4"></div>
-            <div class="col-md-12"><input type="text" name="steam-url-5" class="form-control" placeholder="Посилання на профіль Steam 5"></div>
-        </div>
-        <button class="btn btn-primary mt-3" onclick="findGames()">Знайти спільні ігри</button>
-        <div id="error" class="alert alert-danger mt-3" role="alert"></div>
-    </div>
-
-    <div id="filters">
-        <div id="playerSummaries" role="alert" class="alert alert-info"></div>
-        <div class="mb-4 align-items-center d-flex flex-wrap gap-3">
-            <div class="form-check m-0">
-                <input class="form-check-input" type="checkbox" id="category_1">
-                <label class="form-check-label ms-1" for="category_1">
-                    Багатокористувацька гра
-                </label>
-            </div>
-            <div class="form-check m-0">
-                <input class="form-check-input" type="checkbox" id="category_9">
-                <label class="form-check-label ms-1" for="category_9">
-                    Кооперативна гра
-                </label>
-            </div>
-            <div class="form-check m-0">
-                <input class="form-check-input" type="checkbox" id="category_20">
-                <label class="form-check-label ms-1" for="category_20">
-                    Масова багатокористувацька гра
-                </label>
-            </div>
-            <div class="form-check m-0">
-                <input class="form-check-input" type="checkbox" id="category_38">
-                <label class="form-check-label ms-1" for="category_38">
-                    Мережева кооперативна гра
-                </label>
-            </div>
-            <div class="form-check m-0">
-                <input class="form-check-input" type="checkbox" id="category_36">
-                <label class="form-check-label ms-1" for="category_36">
-                    Гравець проти гравця в мережі
-                </label>
-            </div>
-            <div class="form-check m-0">
-                <input class="form-check-input" type="checkbox" id="category_27">
-                <label class="form-check-label ms-1" for="category_27">
-                    Міжплатформна багатокористувацька гра
-                </label>
-            </div>
-            <div class="form-check m-0">
-                <input class="form-check-input" type="checkbox" id="category_44">
-                <label class="form-check-label ms-1" for="category_44">
-                    Remote Play Together
-                </label>
-            </div>
-            <div class="form-check m-0">
-                <input class="form-check-input" type="checkbox" id="category_47">
-                <label class="form-check-label ms-1" for="category_47">
-                    Гравець проти гравця в локальній мережі
-                </label>
-            </div>
-            <div class="form-check m-0">
-                <input class="form-check-input" type="checkbox" id="category_48">
-                <label class="form-check-label ms-1" for="category_48">
-                    Локальна кооперативна гра
-                </label>
-            </div>
-            <div class="form-check m-0">
-                <input class="form-check-input" type="checkbox" id="category_49">
-                <label class="form-check-label ms-1" for="category_49">
-                    Гравець проти гравця
-                </label>
-            </div>
-        </div>
-        <div class="mb-4">
-            <input list="gameList" id="gameSearch" class="form-control" placeholder="Пошук гри за назвою" style="min-width: 250px; max-width: 300px;">
-            <datalist id="gameList"></datalist>
-        </div>
-    </div>
-
-    <div id="results"></div>
-
-    <canvas id="background-сanvas"></canvas>
-    <div class="dropdown-center position-fixed top-0 start-0 mt-1 ms-1 dropend">
-        <a class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="hamburger">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
-            </svg>
-        </a>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/links">Посилання</a></li>
-            <li><a class="dropdown-item" href="/curators">Куратори Steam</a></li>
-            <li>
-                <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="https://kuli.com.ua/" target="_blank">КУЛІ</a></li>
-            <li><a class="dropdown-item" href="https://manifest.in.ua/" target="_blank">Маніфест</a></li>
-        </ul>
-    </div>
-</div>
-
-<div class="modal fade" id="fullscreenModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content d-flex flex-column justify-content-center align-items-center">
-            Скарги та пропозиції залишайте за цим qr кодом ↓️
-            <a href="https://send.monobank.ua/jar/3B8feSZ6Nx" target="_blank" id="modalImageLink">
-                <img src="images/zbir.png" alt="Зображення" class="modal-img" id="modalImage">
-            </a>
-            <div class="w-75 mt-4">
-                <div class="spinner-border text-warning" role="status">
-                    <span class="visually-hidden">Loading...</span>
+        gtag('config', 'GT-P36C9JQK');
+    </script>
+    <body>
+        <div class="container my-4">
+            <h1 class="mb-4">Пошук спільних ігор у Steam</h1>
+            <div id="form" class="mb-4">
+                <div class="row g-2">
+                    <div class="col-md-12">
+                        <input
+                            type="text"
+                            name="steam-url-1"
+                            class="form-control"
+                            placeholder="Посилання на профіль Steam 1"
+                        />
+                    </div>
+                    <div class="col-md-12">
+                        <input
+                            type="text"
+                            name="steam-url-2"
+                            class="form-control"
+                            placeholder="Посилання на профіль Steam 2"
+                        />
+                    </div>
+                    <div class="col-md-12">
+                        <input
+                            type="text"
+                            name="steam-url-3"
+                            class="form-control"
+                            placeholder="Посилання на профіль Steam 3"
+                        />
+                    </div>
+                    <div class="col-md-12">
+                        <input
+                            type="text"
+                            name="steam-url-4"
+                            class="form-control"
+                            placeholder="Посилання на профіль Steam 4"
+                        />
+                    </div>
+                    <div class="col-md-12">
+                        <input
+                            type="text"
+                            name="steam-url-5"
+                            class="form-control"
+                            placeholder="Посилання на профіль Steam 5"
+                        />
+                    </div>
                 </div>
-                <p id="loading">Це може зайняти деякий час, тож можна поки задонатити на цей збір ↑</p>
+                <button class="btn btn-primary mt-3" onclick="findGames()">Знайти спільні ігри</button>
+                <div id="error" class="alert alert-danger mt-3" role="alert"></div>
+            </div>
+
+            <div id="filters">
+                <div id="playerSummaries" role="alert" class="alert alert-info"></div>
+                <div class="mb-4 align-items-center d-flex flex-wrap gap-3">
+                    <div class="form-check m-0">
+                        <input class="form-check-input" type="checkbox" id="category_1" />
+                        <label class="form-check-label ms-1" for="category_1"> Багатокористувацька гра </label>
+                    </div>
+                    <div class="form-check m-0">
+                        <input class="form-check-input" type="checkbox" id="category_9" />
+                        <label class="form-check-label ms-1" for="category_9"> Кооперативна гра </label>
+                    </div>
+                    <div class="form-check m-0">
+                        <input class="form-check-input" type="checkbox" id="category_20" />
+                        <label class="form-check-label ms-1" for="category_20"> Масова багатокористувацька гра </label>
+                    </div>
+                    <div class="form-check m-0">
+                        <input class="form-check-input" type="checkbox" id="category_38" />
+                        <label class="form-check-label ms-1" for="category_38"> Мережева кооперативна гра </label>
+                    </div>
+                    <div class="form-check m-0">
+                        <input class="form-check-input" type="checkbox" id="category_36" />
+                        <label class="form-check-label ms-1" for="category_36"> Гравець проти гравця в мережі </label>
+                    </div>
+                    <div class="form-check m-0">
+                        <input class="form-check-input" type="checkbox" id="category_27" />
+                        <label class="form-check-label ms-1" for="category_27">
+                            Міжплатформна багатокористувацька гра
+                        </label>
+                    </div>
+                    <div class="form-check m-0">
+                        <input class="form-check-input" type="checkbox" id="category_44" />
+                        <label class="form-check-label ms-1" for="category_44"> Remote Play Together </label>
+                    </div>
+                    <div class="form-check m-0">
+                        <input class="form-check-input" type="checkbox" id="category_47" />
+                        <label class="form-check-label ms-1" for="category_47">
+                            Гравець проти гравця в локальній мережі
+                        </label>
+                    </div>
+                    <div class="form-check m-0">
+                        <input class="form-check-input" type="checkbox" id="category_48" />
+                        <label class="form-check-label ms-1" for="category_48"> Локальна кооперативна гра </label>
+                    </div>
+                    <div class="form-check m-0">
+                        <input class="form-check-input" type="checkbox" id="category_49" />
+                        <label class="form-check-label ms-1" for="category_49"> Гравець проти гравця </label>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <input
+                        list="gameList"
+                        id="gameSearch"
+                        class="form-control"
+                        placeholder="Пошук гри за назвою"
+                        style="min-width: 250px; max-width: 300px"
+                    />
+                    <datalist id="gameList"></datalist>
+                </div>
+            </div>
+
+            <div id="results"></div>
+
+            <canvas id="background-сanvas"></canvas>
+            <div class="dropdown-center position-fixed top-0 start-0 mt-1 ms-1 dropend">
+                <a class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="hamburger">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-list"
+                        viewBox="0 0 16 16"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
+                        />
+                    </svg>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/links">Посилання</a></li>
+                </ul>
             </div>
         </div>
-    </div>
-</div>
 
-<script src="//cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/app.js"></script>
-</body>
+        <div class="modal fade" id="fullscreenModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content d-flex flex-column justify-content-center align-items-center">
+                    Скарги та пропозиції залишайте за цим qr кодом ↓️
+                    <a href="https://send.monobank.ua/jar/3B8feSZ6Nx" target="_blank" id="modalImageLink">
+                        <img src="images/zbir.png" alt="Зображення" class="modal-img" id="modalImage" />
+                    </a>
+                    <div class="w-75 mt-4">
+                        <div class="spinner-border text-warning" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p id="loading">Це може зайняти деякий час, тож можна поки задонатити на цей збір ↑</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="//cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="js/app.js"></script>
+    </body>
 </html>
